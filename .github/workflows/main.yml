@@ -24,11 +24,14 @@ jobs:
       - name: Setup
         run: yarn install
 
-      - name: Build
-        run: yarn build
+      - name: Check format
+        run: yarn format:check
 
       - name: Lint
         run: yarn lint
+
+      - name: Build
+        run: yarn build
 
       - name: '[Pull Request] Get commit message'
         id: pr_get_commit_message

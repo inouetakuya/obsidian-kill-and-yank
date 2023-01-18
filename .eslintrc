@@ -8,7 +8,8 @@
     "extends": [
       "eslint:recommended",
       "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
+      "plugin:@typescript-eslint/recommended",
+      "prettier"
     ], 
     "parserOptions": {
         "sourceType": "module"
@@ -20,4 +21,4 @@
       "no-prototype-builtins": "off",
       "@typescript-eslint/no-empty-function": "off"
     } 
-  }
+}
