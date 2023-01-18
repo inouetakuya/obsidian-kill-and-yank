@@ -1,0 +1,45 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_SUPABASE_API_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_API_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # We need to fetch with a depth of 2 for pull_request so we can do HEAD^2
+          fetch-depth: 2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Setup
+        run: yarn install
+
+      - name: Check format
+        run: yarn format:check
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Build
+        run: yarn build
+
+      - name: '[Pull Request] Get commit message'
+        id: pr_get_commit_message
+        run: echo ::set-output name=pr_commit_message::$(git log --format=%B -n 1 HEAD^2)
+
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_MESSAGE: ${{ steps.pr_get_commit_message.outputs.pr_commit_message }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
