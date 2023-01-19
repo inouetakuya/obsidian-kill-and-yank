@@ -1,7 +1,9 @@
 import { Editor, EditorPosition, MarkdownView, Plugin } from 'obsidian'
 
 export default class KillAndYankPlugin extends Plugin {
+  private editor: Editor
   private killRing: string
+  private mark: EditorPosition | null = null
 
   async onload() {
     this.addCommand({
@@ -38,6 +40,20 @@ export default class KillAndYankPlugin extends Plugin {
       hotkeys: [{ modifiers: ['Ctrl'], key: 'y' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
         editor.replaceSelection(this.killRing)
+      },
+    })
+
+    this.addCommand({
+      id: 'set-mark',
+      name: 'Set mark (Toggle the start position of the selection)',
+      hotkeys: [{ modifiers: ['Ctrl'], key: ' ' }],
+      editorCallback: (editor: Editor, view: MarkdownView) => {
+        if (this.mark) {
+          editor.setSelection(this.mark, editor.getCursor())
+          this.mark = null
+          return
+        }
+        this.mark = editor.getCursor()
       },
     })
   }
