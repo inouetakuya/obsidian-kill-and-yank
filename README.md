@@ -6,29 +6,17 @@ Obsidian https://obsidian.md
 
 ## Usage
 
-### Kill line
+### Kill
 
 Cut from the cursor position to the end of the line.
 
 default: `Control + k`
-
-### Kill region
-
-Cut the selection.
-
-default: `Control + w`
 
 ### Yank
 
 Paste kill ring.
 
 default: `Control + y`
-
-### Set mark
-
-Toggle the start position of the selection.
-
-default: `Control + Space`
 
 ## Note
 
