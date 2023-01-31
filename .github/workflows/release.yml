@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PLUGIN_NAME: obsidian-kill-and-yank
+      PLUGIN_NAME: kill-and-yank
     steps:
       - uses: actions/checkout@v3
 
