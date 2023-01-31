@@ -1,7 +1,7 @@
 {
   "id": "kill-and-yank",
   "name": "Kill and Yank",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minAppVersion": "0.15.0",
   "description": "Enable kill and yank (like Emacs) in the editor",
   "author": "INOUE Takuya",
