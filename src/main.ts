@@ -1,9 +1,6 @@
 import { Editor, EditorPosition, MarkdownView, Plugin } from 'obsidian'
 import { EditorView } from '@codemirror/view'
 
-// @ts-expect-error
-const editorView = view.editor.cm as EditorView
-
 export default class KillAndYankPlugin extends Plugin {
   private editor: Editor
   private killRing: string
@@ -15,6 +12,9 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Kill line (Cut from the cursor position to the end of the line)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'k' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
+        // @ts-expect-error
+        const editorView = view.editor.cm as EditorView
+
         if (!editorView.composing) {
           const position: EditorPosition = editor.getCursor()
           const line: string = editor.getLine(position.line)
@@ -35,10 +35,12 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Kill region (Cut the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        if (!editorView.composing) {        
-          this.killRing = editor.getSelection()
-          editor.replaceSelection('')
+        if (this.mark) {
+          editor.setSelection(this.mark, editor.getCursor())
+          this.mark = null
         }
+        this.killRing = editor.getSelection()
+        editor.replaceSelection('')
       },
     })
 
@@ -47,9 +49,7 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Yank (Paste)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'y' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        if (!editorView.composing) {        
-          editor.replaceSelection(this.killRing)
-        }
+        editor.replaceSelection(this.killRing)
       },
     })
 
