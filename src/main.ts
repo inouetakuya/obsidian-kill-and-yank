@@ -1,4 +1,5 @@
 import { Editor, EditorPosition, MarkdownView, Plugin } from 'obsidian'
+import { EditorView } from '@codemirror/view'
 
 export default class KillAndYankPlugin extends Plugin {
   private editor: Editor
@@ -11,16 +12,21 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Kill line (Cut from the cursor position to the end of the line)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'k' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        const position: EditorPosition = editor.getCursor()
-        const line: string = editor.getLine(position.line)
+        // @ts-expect-error
+        const editorView = view.editor.cm as EditorView
 
-        const textToBeRetained = line.slice(0, position.ch)
-        const textToBeCut = line.slice(position.ch)
+        if (!editorView.composing) {
+          const position: EditorPosition = editor.getCursor()
+          const line: string = editor.getLine(position.line)
 
-        this.killRing = textToBeCut
+          const textToBeRetained = line.slice(0, position.ch)
+          const textToBeCut = line.slice(position.ch)
 
-        editor.setLine(position.line, textToBeRetained)
-        editor.setCursor(position, position.ch)
+          this.killRing = textToBeCut
+
+          editor.setLine(position.line, textToBeRetained)
+          editor.setCursor(position, position.ch)
+        }
       },
     })
 
