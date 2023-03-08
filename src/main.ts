@@ -14,7 +14,6 @@ export default class KillAndYankPlugin extends Plugin {
       editorCallback: (editor: Editor, view: MarkdownView) => {
         // @ts-expect-error
         const editorView = view.editor.cm as EditorView
-
         if (!editorView.composing) {
           const position: EditorPosition = editor.getCursor()
           const line: string = editor.getLine(position.line)
@@ -49,7 +48,11 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Yank (Paste)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'y' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        editor.replaceSelection(this.killRing)
+        // @ts-expect-error
+        const editorView = view.editor.cm as EditorView
+        if (!editorView.composing) {
+          editor.replaceSelection(this.killRing)
+        }
       },
     })
 
