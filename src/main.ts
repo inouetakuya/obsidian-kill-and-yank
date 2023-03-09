@@ -49,6 +49,7 @@ export default class KillAndYankPlugin extends Plugin {
       editorCallback: (editor: Editor, view: MarkdownView) => {
         if (this.isComposing(view)) return
         this.isMark(editor);
+        this.mark = null;
         this.killRing = editor.getSelection()
         editor.replaceSelection('')
       },
