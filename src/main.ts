@@ -6,26 +6,31 @@ export default class KillAndYankPlugin extends Plugin {
   private killRing: string
   private mark: EditorPosition | null = null
 
+  private isComposing(view: MarkdownView) {
+    // @ts-expect-error
+    const editorView = view.editor.cm as EditorView        
+    // console.log(`composing = ${editorView.composing}`);
+    return editorView.composing
+  }
+
   async onload() {
     this.addCommand({
       id: 'kill-line',
       name: 'Kill line (Cut from the cursor position to the end of the line)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'k' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        // @ts-expect-error
-        const editorView = view.editor.cm as EditorView
-        if (!editorView.composing) {
-          const position: EditorPosition = editor.getCursor()
-          const line: string = editor.getLine(position.line)
+        if (this.isComposing(view)) return
 
-          const textToBeRetained = line.slice(0, position.ch)
-          const textToBeCut = line.slice(position.ch)
+        const position: EditorPosition = editor.getCursor()
+        const line: string = editor.getLine(position.line)
 
-          this.killRing = textToBeCut
+        const textToBeRetained = line.slice(0, position.ch)
+        const textToBeCut = line.slice(position.ch)
 
-          editor.setLine(position.line, textToBeRetained)
-          editor.setCursor(position, position.ch)
-        }
+        this.killRing = textToBeCut
+
+        editor.setLine(position.line, textToBeRetained)
+        editor.setCursor(position, position.ch)
       },
     })
 
@@ -34,6 +39,8 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Kill region (Cut the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
+        if (this.isComposing(view)) return
+
         if (this.mark) {
           editor.setSelection(this.mark, editor.getCursor())
           this.mark = null
@@ -48,11 +55,9 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Yank (Paste)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'y' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        // @ts-expect-error
-        const editorView = view.editor.cm as EditorView
-        if (!editorView.composing) {
-          editor.replaceSelection(this.killRing)
-        }
+        if (this.isComposing(view)) return
+
+        editor.replaceSelection(this.killRing)
       },
     })
 
