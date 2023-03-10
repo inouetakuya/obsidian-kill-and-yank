@@ -6,21 +6,21 @@ export default class KillAndYankPlugin extends Plugin {
   private killRing: string
   private mark: EditorPosition | null = null
 
-  private isComposing(view: MarkdownView) {
+  private isComposing(view: MarkdownView): boolean {
     // @ts-expect-error
     const editorView = view.editor.cm as EditorView        
     // console.log(`composing = ${editorView.composing}`);
     return editorView.composing
   }
 
-  private isMark(editor: Editor) {
+  private isMark(editor: Editor): boolean {
     if (this.mark) {
       editor.setSelection(this.mark, editor.getCursor())
-      return null
-    } else {
-      return editor.getCursor()
+      return true;
     }
+    return false;
   }
+
   async onload() {
     this.addCommand({
       id: 'kill-line',
@@ -48,8 +48,7 @@ export default class KillAndYankPlugin extends Plugin {
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
         if (this.isComposing(view)) return
-        this.isMark(editor);
-        this.mark = null;
+        this.mark = this.isMark(editor) ? null : null;
         this.killRing = editor.getSelection()
         editor.replaceSelection('')
       },
@@ -71,7 +70,7 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Set mark (Toggle the start position of the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: ' ' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        this.mark = this.isMark(editor);
+        this.mark = this.isMark(editor) ? null : editor.getCursor();
       },
     })
   }
