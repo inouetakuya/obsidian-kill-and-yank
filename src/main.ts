@@ -8,7 +8,7 @@ export default class KillAndYankPlugin extends Plugin {
 
   private isComposing(view: MarkdownView): boolean {
     // @ts-expect-error
-    const editorView = view.editor.cm as EditorView        
+    const editorView = view.editor.cm as EditorView
     // console.log(`composing = ${editorView.composing}`);
     return editorView.composing
   }
@@ -16,9 +16,9 @@ export default class KillAndYankPlugin extends Plugin {
   private isMark(editor: Editor): boolean {
     if (this.mark) {
       editor.setSelection(this.mark, editor.getCursor())
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
   async onload() {
@@ -35,7 +35,8 @@ export default class KillAndYankPlugin extends Plugin {
         const textToBeRetained = line.slice(0, position.ch)
         const textToBeCut = line.slice(position.ch)
 
-        this.killRing = textToBeCut
+        // this.killRing = textToBeCut
+        navigator.clipboard.writeText(textToBeCut)
 
         editor.setLine(position.line, textToBeRetained)
         editor.setCursor(position, position.ch)
@@ -48,8 +49,9 @@ export default class KillAndYankPlugin extends Plugin {
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
         if (this.isComposing(view)) return
-        this.mark = this.isMark(editor) ? null : null;
-        this.killRing = editor.getSelection()
+        this.mark = this.isMark(editor) ? null : null
+        // this.killRing = editor.getSelection()
+        navigator.clipboard.writeText(editor.getSelection())
         editor.replaceSelection('')
       },
     })
@@ -61,7 +63,10 @@ export default class KillAndYankPlugin extends Plugin {
       editorCallback: (editor: Editor, view: MarkdownView) => {
         if (this.isComposing(view)) return
 
-        editor.replaceSelection(this.killRing)
+        navigator.clipboard.readText().then((text) => {
+          editor.replaceSelection(text)
+        })
+        // editor.replaceSelection(this.killRing)
       },
     })
 
@@ -70,7 +75,7 @@ export default class KillAndYankPlugin extends Plugin {
       name: 'Set mark (Toggle the start position of the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: ' ' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
-        this.mark = this.isMark(editor) ? null : editor.getCursor();
+        this.mark = this.isMark(editor) ? null : editor.getCursor()
       },
     })
   }
