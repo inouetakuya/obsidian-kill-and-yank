@@ -32,7 +32,7 @@ default: `Control + Space`
 
 ## Note
 
-This plugin enables kill and yank in the editor, but does not enables kill and yank in the title.
+This plugin enables kill and yank in the editor, but does not enable kill and yank in the title.
 
 If you wish to continue to use kill and yank in the title, change the default key mappings.
 
@@ -66,4 +66,4 @@ yarn build
 
 ### Manually installing this plugin
 
-Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/obsidian-kill-and-yank/`.
+Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/kill-and-yank/`.
