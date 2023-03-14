@@ -2,14 +2,11 @@ import { Editor, EditorPosition, MarkdownView, Plugin } from 'obsidian'
 import { EditorView } from '@codemirror/view'
 
 export default class KillAndYankPlugin extends Plugin {
-  private editor: Editor
-  private killRing: string
   private mark: EditorPosition | null = null
 
   private isComposing(view: MarkdownView): boolean {
-    // @ts-expect-error
+    // @ts-expect-error TS2339: Property 'cm' does not exist on type 'Editor'
     const editorView = view.editor.cm as EditorView
-    // console.log(`composing = ${editorView.composing}`);
     return editorView.composing
   }
 
@@ -35,7 +32,6 @@ export default class KillAndYankPlugin extends Plugin {
         const textToBeRetained = line.slice(0, position.ch)
         const textToBeCut = line.slice(position.ch)
 
-        // this.killRing = textToBeCut
         navigator.clipboard.writeText(textToBeCut)
 
         editor.setLine(position.line, textToBeRetained)
@@ -49,8 +45,8 @@ export default class KillAndYankPlugin extends Plugin {
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
       editorCallback: (editor: Editor, view: MarkdownView) => {
         if (this.isComposing(view)) return
+
         this.mark = this.isMark(editor) ? null : null
-        // this.killRing = editor.getSelection()
         navigator.clipboard.writeText(editor.getSelection())
         editor.replaceSelection('')
       },
@@ -66,7 +62,6 @@ export default class KillAndYankPlugin extends Plugin {
         navigator.clipboard.readText().then((text) => {
           editor.replaceSelection(text)
         })
-        // editor.replaceSelection(this.killRing)
       },
     })
 
