@@ -89,4 +89,4 @@ git push --tags
 
 ### Manually installing this plugin
 
-Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/kill-and-yank/`.
+Copy over `main.js` and `manifest.json` to your vault `VaultFolder/.obsidian/plugins/kill-and-yank/`.
