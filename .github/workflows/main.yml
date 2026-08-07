@@ -8,9 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_SUPABASE_API_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_API_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -34,9 +31,15 @@ jobs:
       - name: Build
         run: pnpm build
 
+      # コミットメッセージは複数行になりうるため、デリミタで囲む形式で渡します
       - name: '[Pull Request] Get commit message'
         id: pr_get_commit_message
-        run: echo ::set-output name=pr_commit_message::$(git log --format=%B -n 1 HEAD^2)
+        run: |
+          {
+            echo 'pr_commit_message<<EOF'
+            git log --format=%B -n 1 HEAD^2
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2

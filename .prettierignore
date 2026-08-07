@@ -5,3 +5,5 @@ README.md
 main.js
 
 pnpm-lock.yaml
+
+.claude/
