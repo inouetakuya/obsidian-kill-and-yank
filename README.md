@@ -68,9 +68,24 @@ pnpm build
 
 ### Release
 
-Update `manifest.json` and `versions.json` with the new version, then push a git tag to trigger the release workflow.
+Bump the version with an explicit version number:
 
-Tags are named without the `v` prefix, matching the version in `manifest.json` (for example `1.2.0`).
+```shell
+pnpm version 1.3.0 --tag-version-prefix ""
+```
+
+This runs `version-bump.mjs` through the `version` lifecycle script, which writes the new version into `manifest.json` and `versions.json`, then creates a commit and a tag.
+
+`--tag-version-prefix ""` is required. pnpm prefixes tags with `v` by default, while the release workflow and the Obsidian community plugin flow expect the tag to match the version in `manifest.json` exactly (for example `1.2.0`).
+
+Pass an explicit version rather than `patch` or `minor`, because `version` in `package.json` is not kept in sync with `manifest.json`.
+
+Then push the commit and the tag to trigger the release workflow:
+
+```shell
+git push
+git push --tags
+```
 
 ### Manually installing this plugin
 
