@@ -17,10 +17,10 @@ jobs:
           # We need to fetch with a depth of 2 for pull_request so we can do HEAD^2
           fetch-depth: 2
 
-      # pnpm/setup は pnpm とランタイムの用意に加えて pnpm install まで行うため、actions/setup-node は不要
-      # pnpm のバージョンは package.json の packageManager フィールドから解決される
+      # pnpm/setup は pnpm と Node の用意から pnpm install までを行うため、actions/setup-node は不要です
+      # pnpm のバージョンは package.json の packageManager フィールドから解決されます
       - name: Setup
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
         with:
           runtime: node@24
           cache: true
