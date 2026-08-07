@@ -31,7 +31,7 @@
     "obsidian": "1.13.1",
     "prettier": "^3.9.6",
     "tslib": "2.4.0",
-    "typescript": "4.7.4",
+    "typescript": "6.0.3",
     "typescript-eslint": "8.66.0"
   },
   "dependencies": {
