@@ -6,6 +6,16 @@
     {
       "matchUpdateTypes": ["minor", "patch", "pin"],
       "automerge": true
+    },
+    {
+      "description": "obsidian が peerDependencies で厳密なバージョンを指定するため、obsidian の更新に合わせて手動で追従します",
+      "matchPackageNames": ["@codemirror/view"],
+      "enabled": false
+    },
+    {
+      "description": "typescript-eslint 8 の対応範囲が 6.1.0 未満のため、7.x へは上げません",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<6.1.0"
     }
   ]
 }
