@@ -38,31 +38,39 @@ If you wish to continue to use kill and yank in the title, change the default ke
 
 ## Development
 
+This project uses pnpm. The required version is pinned in the `packageManager` field of `package.json` and in `mise.toml`.
+
 ### Setup
 
 ```shell
-yarn install
+pnpm install
 ```
 
 ### Format
 
 ```shell
-yarn format:check
-yarn format:fix
+pnpm format:check
+pnpm format:fix
 ```
 
 ### Lint
 
 ```shell
-yarn lint
-yarn lint:fix
+pnpm lint
+pnpm lint:fix
 ```
 
 ### Build
 
 ```shell
-yarn build
+pnpm build
 ```
+
+### Release
+
+Update `manifest.json` and `versions.json` with the new version, then push a git tag to trigger the release workflow.
+
+Tags are named without the `v` prefix, matching the version in `manifest.json` (for example `1.2.0`).
 
 ### Manually installing this plugin
 
