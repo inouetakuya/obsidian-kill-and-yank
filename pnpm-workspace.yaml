@@ -1,0 +1,3 @@
+# esbuild は postinstall でプラットフォーム向けバイナリを配置するため、ビルドスクリプトの実行を許可します
+allowBuilds:
+  esbuild: true
