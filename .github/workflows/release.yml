@@ -11,17 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
+      # pnpm/setup は pnpm と Node の用意から pnpm install までを行うため、actions/setup-node は不要です
+      # pnpm のバージョンは package.json の packageManager フィールドから解決されます
       - name: Setup
-        run: yarn install
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
+        with:
+          runtime: node@24
+          cache: true
 
       - name: Build
         id: build
         run: |
-          yarn build --if-present
+          pnpm build
           mkdir ${{ env.PLUGIN_NAME }}
           cp main.js manifest.json ${{ env.PLUGIN_NAME }}
           zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}

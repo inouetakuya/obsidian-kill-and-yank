@@ -3,3 +3,5 @@ node_modules/
 README.md
 
 main.js
+
+pnpm-lock.yaml

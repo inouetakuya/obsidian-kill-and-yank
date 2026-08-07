@@ -38,30 +38,53 @@ If you wish to continue to use kill and yank in the title, change the default ke
 
 ## Development
 
+This project uses pnpm. The required version is pinned in the `packageManager` field of `package.json` and in `mise.toml`.
+
 ### Setup
 
 ```shell
-yarn install
+pnpm install
 ```
 
 ### Format
 
 ```shell
-yarn format:check
-yarn format:fix
+pnpm format:check
+pnpm format:fix
 ```
 
 ### Lint
 
 ```shell
-yarn lint
-yarn lint:fix
+pnpm lint
+pnpm lint:fix
 ```
 
 ### Build
 
 ```shell
-yarn build
+pnpm build
+```
+
+### Release
+
+Bump the version with an explicit version number:
+
+```shell
+pnpm version 1.3.0 --tag-version-prefix ""
+```
+
+This runs `version-bump.mjs` through the `version` lifecycle script, which writes the new version into `manifest.json` and `versions.json`, then creates a commit and a tag.
+
+`--tag-version-prefix ""` is required. pnpm prefixes tags with `v` by default, while the release workflow and the Obsidian community plugin flow expect the tag to match the version in `manifest.json` exactly (for example `1.2.0`).
+
+Pass an explicit version rather than `patch` or `minor`, because `version` in `package.json` is not kept in sync with `manifest.json`.
+
+Then push the commit and the tag to trigger the release workflow:
+
+```shell
+git push
+git push --tags
 ```
 
 ### Manually installing this plugin

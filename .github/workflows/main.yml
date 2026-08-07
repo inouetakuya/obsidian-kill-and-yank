@@ -17,21 +17,22 @@ jobs:
           # We need to fetch with a depth of 2 for pull_request so we can do HEAD^2
           fetch-depth: 2
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
+      # pnpm/setup は pnpm と Node の用意から pnpm install までを行うため、actions/setup-node は不要です
+      # pnpm のバージョンは package.json の packageManager フィールドから解決されます
       - name: Setup
-        run: yarn install
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
+        with:
+          runtime: node@24
+          cache: true
 
       - name: Check format
-        run: yarn format:check
+        run: pnpm format:check
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: '[Pull Request] Get commit message'
         id: pr_get_commit_message
