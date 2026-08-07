@@ -22,6 +22,10 @@ jobs:
           runtime: node@24
           cache: true
 
+      # install や build は peer dependency の不整合を検出しないため、個別に確認します
+      - name: Check peer dependencies
+        run: pnpm peers check
+
       - name: Check format
         run: pnpm format:check
 
