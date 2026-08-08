@@ -1,10 +1,17 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "schedule": ["after 5am and before 8am on saturday"],
+  "extends": ["config:best-practices"],
+  "timezone": "Asia/Tokyo",
+  "minimumReleaseAge": "14 days",
+  "prConcurrentLimit": 2,
+  "prHourlyLimit": 0,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "matchUpdateTypes": ["patch", "pin"],
       "automerge": true
     },
     {
@@ -13,9 +20,10 @@
       "enabled": false
     },
     {
-      "description": "typescript-eslint 8 の対応範囲が 6.1.0 未満のため、7.x へは上げません",
+      "description": "TypeScript 7 は typescript-eslint 8 の対応範囲（>=4.8.4 <6.1.0）から外れるため一時停止します。typescript-eslint が TypeScript 7 へ対応したら解禁し、本ルールを削除します",
       "matchPackageNames": ["typescript"],
-      "allowedVersions": "<6.1.0"
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     }
   ]
 }
