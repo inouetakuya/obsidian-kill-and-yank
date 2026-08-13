@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:best-practices"],
   "timezone": "Asia/Tokyo",
-  "minimumReleaseAge": "14 days",
   "prConcurrentLimit": 2,
   "prHourlyLimit": 0,
   "lockFileMaintenance": {
@@ -11,21 +10,18 @@
   },
   "packageRules": [
     {
-      "description": "リリース日時を持たない更新種別を minimumReleaseAge の対象外にします。これらに適用すると更新が永久に保留されるため、security:minimumReleaseAgeNpm も同じ除外を持ちますが、本設定のトップレベルの minimumReleaseAge がそれを打ち消すため明示します",
-      "matchUpdateTypes": [
-        "lockFileMaintenance",
-        "replacement",
-        "pin",
-        "pinDigest",
-        "bump",
-        "lockfileUpdate",
-        "rollback"
-      ],
-      "minimumReleaseAge": null
-    },
-    {
       "matchUpdateTypes": ["patch", "pin"],
       "automerge": true
+    },
+    {
+      "description": "Renovate では pin と pinDigest が別の updateType のため、pin だけでは digest のピン留めが automerge の対象になりません。pinDigest は現在参照している実体を記録するだけで、ピン留めしなければ実行されるものと同じであるため automerge して差し支えありません。実体の変化に追随する digest は意図的に対象外とします",
+      "matchUpdateTypes": ["pinDigest"],
+      "automerge": true
+    },
+    {
+      "description": "Renovate の既定の並び順は lockFileMaintenance を最後尾に置くため、prConcurrentLimit の枠を他の更新に奪われ続けて PR が作られなくなります。prPriority は並び順より先に評価されるため、正の値を与えて先頭へ引き上げます",
+      "matchUpdateTypes": ["lockFileMaintenance"],
+      "prPriority": 10
     },
     {
       "description": "obsidian が peerDependencies で厳密なバージョンを指定するため、obsidian の更新に合わせて手動で追従します",
