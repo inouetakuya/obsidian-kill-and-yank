@@ -11,6 +11,19 @@
   },
   "packageRules": [
     {
+      "description": "リリース日時を持たない更新種別を minimumReleaseAge の対象外にします。これらに適用すると更新が永久に保留されるため、security:minimumReleaseAgeNpm も同じ除外を持ちますが、本設定のトップレベルの minimumReleaseAge がそれを打ち消すため明示します",
+      "matchUpdateTypes": [
+        "lockFileMaintenance",
+        "replacement",
+        "pin",
+        "pinDigest",
+        "bump",
+        "lockfileUpdate",
+        "rollback"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
       "matchUpdateTypes": ["patch", "pin"],
       "automerge": true
     },
