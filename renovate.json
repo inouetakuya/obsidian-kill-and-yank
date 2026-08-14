@@ -10,12 +10,8 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["patch", "pin"],
-      "automerge": true
-    },
-    {
-      "description": "Renovate では pin と pinDigest が別の updateType のため、pin だけでは digest のピン留めが automerge の対象になりません。pinDigest は現在参照している実体を記録するだけで、ピン留めしなければ実行されるものと同じであるため automerge して差し支えありません。実体の変化に追随する digest は意図的に対象外とします",
-      "matchUpdateTypes": ["pinDigest"],
+      "description": "メジャー以外は CI の通過をもって自動マージします。pin と pinDigest、digest は minor / patch とは別の updateType として扱われるため、個別に列挙しないと対象になりません",
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
       "automerge": true
     },
     {
