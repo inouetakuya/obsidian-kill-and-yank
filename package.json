@@ -1,6 +1,6 @@
 {
   "name": "obsidian-kill-and-yank",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Obsidian plugin to enable kill and yank (like Emacs) in the editor",
   "main": "main.js",
   "scripts": {
