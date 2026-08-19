@@ -5,9 +5,6 @@
     "module": "ESNext",
     "target": "ES6",
     "allowJs": true,
-    // TypeScript 6 で strict が既定で有効になりましたが、有効にすると Obsidian の
-    // editorCallback で型エラーが出るため、従来の型チェックレベルを維持します
-    "strict": false,
     "noImplicitAny": true,
     "moduleResolution": "bundler",
     "importHelpers": true,

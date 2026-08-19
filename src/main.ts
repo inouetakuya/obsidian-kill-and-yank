@@ -1,12 +1,12 @@
-import { Editor, EditorPosition, MarkdownView, Plugin } from 'obsidian'
+import { Editor, EditorPosition, Plugin } from 'obsidian'
 import { EditorView } from '@codemirror/view'
 
 export default class KillAndYankPlugin extends Plugin {
   private mark: EditorPosition | null = null
 
-  private isComposing(view: MarkdownView): boolean {
+  private isComposing(editor: Editor): boolean {
     // @ts-expect-error TS2339: Property 'cm' does not exist on type 'Editor'
-    const editorView = view.editor.cm as EditorView
+    const editorView = editor.cm as EditorView
     return editorView.composing
   }
 
@@ -15,8 +15,8 @@ export default class KillAndYankPlugin extends Plugin {
       id: 'kill-line',
       name: 'Kill line (Cut from the cursor position to the end of the line)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'k' }],
-      editorCallback: (editor: Editor, view: MarkdownView) => {
-        if (this.isComposing(view)) return
+      editorCallback: (editor: Editor) => {
+        if (this.isComposing(editor)) return
 
         const position: EditorPosition = editor.getCursor()
         const line: string = editor.getLine(position.line)
@@ -35,8 +35,8 @@ export default class KillAndYankPlugin extends Plugin {
       id: 'kill-region',
       name: 'Kill region (Cut the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'w' }],
-      editorCallback: (editor: Editor, view: MarkdownView) => {
-        if (this.isComposing(view)) return
+      editorCallback: (editor: Editor) => {
+        if (this.isComposing(editor)) return
 
         if (this.mark) {
           editor.setSelection(this.mark, editor.getCursor())
@@ -51,8 +51,8 @@ export default class KillAndYankPlugin extends Plugin {
       id: 'yank',
       name: 'Yank (Paste)',
       hotkeys: [{ modifiers: ['Ctrl'], key: 'y' }],
-      editorCallback: (editor: Editor, view: MarkdownView) => {
-        if (this.isComposing(view)) return
+      editorCallback: (editor: Editor) => {
+        if (this.isComposing(editor)) return
 
         navigator.clipboard.readText().then((text) => {
           editor.replaceSelection(text)
@@ -64,7 +64,7 @@ export default class KillAndYankPlugin extends Plugin {
       id: 'set-mark',
       name: 'Set mark (Toggle the start position of the selection)',
       hotkeys: [{ modifiers: ['Ctrl'], key: ' ' }],
-      editorCallback: (editor: Editor, view: MarkdownView) => {
+      editorCallback: (editor: Editor) => {
         if (this.mark) {
           editor.setSelection(this.mark, editor.getCursor())
           this.mark = null
