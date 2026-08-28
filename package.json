@@ -25,7 +25,7 @@
     "@types/node": "24.13.3",
     "builtin-modules": "5.3.0",
     "esbuild": "0.28.2",
-    "eslint": "10.9.0",
+    "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
     "globals": "17.11.0",
     "obsidian": "1.13.1",
