@@ -15,7 +15,7 @@ jobs:
       # pnpm/setup は pnpm と Node の用意から pnpm install までを行うため、actions/setup-node は不要です
       # pnpm のバージョンは package.json の packageManager フィールドから解決されます
       - name: Setup
-        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           runtime: node@24
           cache: true
