@@ -18,7 +18,7 @@
   ],
   "author": "INOUE Takuya",
   "license": "MIT",
-  "packageManager": "pnpm@11.25.0",
+  "packageManager": "pnpm@12.3.0",
   "devDependencies": {
     "@codemirror/view": "6.38.6",
     "@eslint/js": "10.0.1",
