@@ -20,7 +20,7 @@
   "license": "MIT",
   "packageManager": "pnpm@12.11.0",
   "devDependencies": {
-    "@codemirror/view": "6.38.6",
+    "@codemirror/view": "6.43.13",
     "@eslint/js": "10.0.1",
     "@types/node": "24.19.1",
     "builtin-modules": "5.4.0",
