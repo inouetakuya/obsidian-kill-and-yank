@@ -22,7 +22,7 @@
   "devDependencies": {
     "@codemirror/view": "6.43.13",
     "@eslint/js": "10.0.1",
-    "@types/node": "24.19.2",
+    "@types/node": "26.6.5",
     "builtin-modules": "5.4.0",
     "esbuild": "0.28.2",
     "eslint": "10.13.0",
