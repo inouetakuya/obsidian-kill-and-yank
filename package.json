@@ -23,7 +23,7 @@
     "@codemirror/view": "6.43.13",
     "@eslint/js": "10.0.1",
     "@types/node": "26.6.6",
-    "builtin-modules": "5.4.0",
+    "builtin-modules": "5.5.0",
     "esbuild": "0.28.2",
     "eslint": "10.14.0",
     "eslint-config-prettier": "10.1.8",
